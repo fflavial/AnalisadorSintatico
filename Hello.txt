@@ -1,0 +1,56 @@
+// Define a grammar called Hello
+grammar Hello;
+
+
+//OP_ARITMETICO : '+' | '-' | '*' | '/' | '%' ;
+SEQ_ESCAPE : '\b' | '\t' | '\n' | '\f' ;
+OP_LOGICO : '&&' | '||' | '!' | '&' | '|' ;
+COMENTARIO : '//' | '/*' | '*/' ;
+OP_RELACIONAL : '>' | '<' | '==' | '!=' | '>=' | '<=' | '<<' | '>>' ;
+OP_ATRIBUICAO : '+=' | '-='  | '*=' | '/=' | '%=' | '++' | '--' | '=' ;
+OP_BOOLEAN : 'true' | 'false' ;
+SEPARADORES : '(' | ')' | '{' | '}' | '[' | ']' | ';' | ',' | '.'  ;
+PALAVRA_RESERVADA : 'package' | 'import' | 'new' | 'interface' | 'enum'
+ | 'abstract' | 'final' | 'implements' | 'extends' | 'instanceof'  | 'private'
+ | 'protected' | 'super' | 'this' | 'throw' | 'throws' | 'try' | 'catch' | 'finally'
+ | 'if' | 'else' | 'for' | 'do' | 'while' | 'switch' | 'case' | 'default' | 'break'
+ | 'continue' | 'return' | 'boolean' | 'byte' | 'short' | 'int' | 'long' | 'double' | 'float'
+ | 'char' | 'strictfp' | 'transient' | 'volatile' | 'synchronized' | 'native' | 'assert' 
+ | 'goto' | 'true' | 'false' | 'null' ;
+
+ 
+r  : 'hello' ID ;         // match keyword hello followed by an identifier
+NUMERO : [0-9]+ ;
+ID : [a-z]+ ;             // match lower-case identifiers
+WS : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines
+
+
+declaraVariavel : PALAVRA_RESERVADA ID OP_ATRIBUICAO NUMERO ';';
+operacaoComparacao : ID OP_RELACIONAL NUMERO;
+operacaoCT : ID OP_ATRIBUICAO ;	   
+
+
+// ex: for(int i=1;i<=10;i++)	   
+nfor : 'for''(' declaraVariavel operacaoComparacao ';' operacaoCT')''{'statement'}' ;	  
+nelse : 'else { }' ;
+nif : 'if''('operacaoComparacao')''{'statement'}' nelse? ; 
+natribuicao : ID OP_ATRIBUICAO expr ';';
+ 
+//if (i==10) { }
+
+nwhile : 'while' '('operacaoComparacao')''{'statement'}';
+
+statement: (nif|nfor|natribuicao|declaraVariavel|nwhile)* ;
+
+// ex: public class Analisador {
+//         public static void main ( String [] args ) { i=this;} }
+
+mainClass: 'public' 'class' ID '{'
+'public' 'static' 'void' 'main' 
+'(' 'String' '[' ']' 'args' ')' '{' statement '}' '}'; 
+
+ADDOP : '+' | '-' ;
+MULTOP : '*' | '/';
+expr : expr ADDOP term | term ;
+term : term MULTOP NUMERO | NUMERO ;
+	   
