@@ -1,8 +1,12 @@
 # AnalisadorSintatico
 
 Flávia Lessa de Aguiar
+
 Trabalho de Construção de Compiladores, Analisador Sintatico com antlr.
-A gramática esta no arquivo Hello.g4
+Aceita como entrada uma sentença e constrói para a sentença sua árvore gramatical (ou equivalentemente uma seqüência de derivação) ou, caso a sentença não pertença à linguagem JAVA, uma indicação de erro.
+
+
+A gramática esta no arquivo Hello.txt
 
 Depois de baixar, caso esteja no windows, abra o cmd e escreva o seguinte:
 
